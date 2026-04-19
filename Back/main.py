@@ -1,31 +1,46 @@
+import webview
+import uvicorn
+import threading
+import socket
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
+# --- FastAPI Setup ---
 app = FastAPI()
+current_dir = os.path.dirname(os.path.abspath(__file__))
+build_dir = os.path.join(current_dir, "build")
 
-origins = [
-    "http://localhost:5173"
-]
+@app.get("/api/status")
+def get_status():
+    return {"status": "Backend is running!"}
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Serve the SvelteKit static files
+app.mount("/_app", StaticFiles(directory=os.path.join(build_dir, "_app")), name="static")
 
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    return FileResponse(os.path.join(build_dir, "index.html"))
 
-@app.get("/")
-async def read_root():
-    return {"message": "Hello World"}
+# --- helper to find an open port ---
+def get_free_port():
+    with socket.socket() as s:
+        s.bind(('', 0))
+        return s.getsockname()[1]
 
-@app.get("/test")
-async def read_test():
-    return {"message": "Button test response from FastAPI backend!"}
+# --- pywebview Setup ---
+def run_server(port):
+    uvicorn.run(app, host="127.0.0.1", port=port, log_level="error")
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+if __name__ == "__main__":
+    port = get_free_port()
+    url = f"http://127.0.0.1:{port}"
 
+    # Start FastAPI in a background thread
+    server_thread = threading.Thread(target=run_server, args=(port,), daemon=True)
+    server_thread.start()
 
+    # Launch the native window
+    webview.create_window("SvelteKit + FastAPI Desktop App", url)
+    webview.start()
