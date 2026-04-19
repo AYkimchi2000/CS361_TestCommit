@@ -2,7 +2,6 @@
     // You can pull this from an environment variable later
     let request_success_flag = $state(false)
     let request_response = $state()
-    const API_BASE_URL = 'http://127.0.0.1:8000';
 
     async function fetchTest() {
         try {
