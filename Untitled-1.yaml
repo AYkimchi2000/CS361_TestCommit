@@ -1,0 +1,11 @@
+Parser: |
+  import argparse 
+
+  parser = argparse.ArgumentParser()
+    parser.add_argument("mode", nargs="?", default="app", choices=["dev", "app"], help="mode to run in")
+    args = parser.parse_args()
+
+  match args.mode:
+    case "dev":
+    case "app":
+
