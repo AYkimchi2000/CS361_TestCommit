@@ -1,2 +1,6 @@
-1: 
-  
+Input data:
+  [v]Guitar tuning (exact note of each string)
+  [v]Number of frets(Standard 22 frets)
+  [v]Array of chord arrays
+Chord priority logic:
+  1. Take the array of chords, 

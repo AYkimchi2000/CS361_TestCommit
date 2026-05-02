@@ -10,12 +10,16 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from cors import setup_cors
 from typing import List
+from pydantic import BaseModel
 
 
 app = FastAPI()
 setup_cors(app, True)
 
-# returns different path based on if 
+class ChordData(BaseModel):
+    chords: List[List[str]]
+    selectedFret: int
+
 def get_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
@@ -28,8 +32,8 @@ def get_status():
     return {"status": "Backend is running!"}
 
 @app.post("/api/process-chords")
-def process_chords(data: List[List[str]]):
-    row_count = len(data)
+def process_chords(data: ChordData):
+    row_count = len(data.chords)
     return {
         "received": data,
         "rows": row_count,

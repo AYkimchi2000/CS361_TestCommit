@@ -1,6 +1,6 @@
 <script>
     import { page } from '$app/stores';
-    import { updateRouteState } from "$lib";
+    let { updateRouteState } = $props();
 </script>
 
 <nav>

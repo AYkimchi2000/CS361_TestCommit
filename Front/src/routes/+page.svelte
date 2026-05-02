@@ -1,5 +1,6 @@
 <script>
-   import { fetchGET, fetchPOST, arr } from "$lib";
+   import { fetchGET, fetchPOST } from "$lib/api";
+   import { updateRouteState } from "$lib/util";
    import Navbar from "$lib/Navbar.svelte";
     // You can pull this from an environment variable later
     let request_success_flag = $state(false)
@@ -8,7 +9,7 @@
 
 </script>
 
-<Navbar></Navbar>
+<Navbar updateRouteState={updateRouteState} ></Navbar>
 
 <button onclick={async ()=>{
     const data = await fetchGET('/api/status')
@@ -28,6 +29,5 @@
     <pre>{JSON.stringify(request_response, null, 2)}</pre>
     <button onclick={()=>{request_success_flag = false}}> reset_success_flag </button>
 {/if} -->
-
 
 
