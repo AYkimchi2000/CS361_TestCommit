@@ -27,7 +27,7 @@ def get_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-build_dir = get_path("build")
+frontend_build = get_path("frontBuild")
 
 @app.get("/api/status")
 def get_status():
@@ -43,13 +43,13 @@ def calcBestFret(data: ChordData):
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
-    return FileResponse(os.path.join(build_dir, "favicon.ico"))
+    return FileResponse(os.path.join(frontend_build, "favicon.ico"))
 
-app.mount("/_app", StaticFiles(directory=os.path.join(build_dir, "_app")), name="static")
+app.mount("/_app", StaticFiles(directory=os.path.join(frontend_build, "_app")), name="static")
 
 @app.get("/{full_path:path}")
 async def serve_spa(full_path: str):
-    return FileResponse(os.path.join(build_dir, "index.html"))
+    return FileResponse(os.path.join(frontend_build, "index.html"))
 
 
 def get_free_port():
@@ -76,6 +76,6 @@ if __name__ == "__main__":
 
             server_thread = threading.Thread(target=run_server, args=(port,), daemon=True)
             server_thread.start()
-            webview.create_window("SvelteKit + FastAPI Desktop App", url)
-            webview.start()
+            webview.create_window("ChordPositionFinder", url)
+            webview.start(debug=True)
 

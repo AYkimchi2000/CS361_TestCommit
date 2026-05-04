@@ -1,0 +1,1 @@
+import"../chunks/CCQaB4jt.js";import"../chunks/CFKVnMbq.js";import{s as e,t}from"../chunks/BYsQlhht.js";function n(n){t(n,{get updateRouteState(){return e}})}export{n as component};

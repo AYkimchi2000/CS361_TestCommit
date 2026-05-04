@@ -1,0 +1,7 @@
+Build process:
+  1. npm run build from the front end directory
+  2. rename the build folder to /front_build
+  3. Make sure there's no residual /dist or /build in the /Back directory, if so, remove them.
+  4. move the newly built front end folder into /Back
+  5. run "pyinstaller --clean --onefile --add-data "frontBuild;frontBuild" main.py" from /Back
+  

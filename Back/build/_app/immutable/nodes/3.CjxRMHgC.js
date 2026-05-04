@@ -1,1 +1,0 @@
-import{f as e,m as t}from"../chunks/BijWNqgm.js";import"../chunks/DXLwiZ0H.js";var n=t(`<nav><a href="/">home</a> <a href="/about">about</a></nav>`);function r(t){e(t,n())}export{r as component};
