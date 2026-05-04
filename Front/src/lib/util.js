@@ -20,6 +20,8 @@ export function updateRouteState (state) {
     state = page.route.id
 }
 
+
+
 export function generateValidNoteRange(tuning, fretCount = 22) {
     const noteNmidi = (note, mode) => {
         const notes = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
@@ -33,7 +35,7 @@ export function generateValidNoteRange(tuning, fretCount = 22) {
             if (!match) return null;
             const name = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
             const octave = parseInt(match[2]);   
-            return (octave + 1) * 12 + notes[name];
+            return (octave + 1) * 12 + notes[name]; 
         } 
         else if (mode === "m2n") {
             const midi = note;
@@ -57,6 +59,9 @@ export function generateValidNoteRange(tuning, fretCount = 22) {
 }
 export function validateNote (note,validNotes) {
     return validNotes.includes(note)
+}
+export function cleanOctave (chords) {
+    return chords.map(chord => chord.map( note => note.replace(/\d+/g, '')))
 }
 export function arrayUnique (array) {
     return [...new Set(array.flat())];

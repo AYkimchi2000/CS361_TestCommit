@@ -11,14 +11,16 @@ from fastapi.responses import FileResponse
 from cors import setup_cors
 from typing import List
 from pydantic import BaseModel
-
+import utils
 
 app = FastAPI()
 setup_cors(app, True)
 
 class ChordData(BaseModel):
     chords: List[List[str]]
-    selectedFret: int
+    tuning: List[str]
+    fretCount: int
+
 
 def get_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -31,13 +33,12 @@ build_dir = get_path("build")
 def get_status():
     return {"status": "Backend is running!"}
 
-@app.post("/api/process-chords")
-def process_chords(data: ChordData):
-    row_count = len(data.chords)
+@app.post("/api/calcBestFret")
+def calcBestFret(data: ChordData):
+    bestFrets = utils.calc_best_frets(utils.array_unique(utils.clean_octave(data.chords)), utils.fretboard)
     return {
-        "received": data,
-        "rows": row_count,
-        "message": "arr processe successfully"
+        "recevied chordData:": data,
+        "bestFret:": bestFrets
     }
 
 @app.get("/favicon.ico", include_in_schema=False)

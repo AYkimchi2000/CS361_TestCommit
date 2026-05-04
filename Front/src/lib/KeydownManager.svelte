@@ -1,3 +1,7 @@
+<script>
+	import { commandMonitor } from "./commands/commandMonitor.svelte";
+</script>
+
 <svelte:window 
 	onkeydown={(e) => {
 		const isZ = e.key.toLowerCase() === 'z';
@@ -5,7 +9,7 @@
 
 		if (isMod && isZ) {
 			e.preventDefault();
-			e.shiftKey ? console.log('Redo') : console.log('Undo');
+			e.shiftKey ? commandMonitor.redo() : commandMonitor.undo();
 		}
 	}} 
 />

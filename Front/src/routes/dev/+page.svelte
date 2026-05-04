@@ -24,9 +24,9 @@
 				title={"The number of frets on your guitar"}
 				/>
 			</div>
-			<div id="tuning-input" class="flex flex-wrap flex-row bg-gray-300 p-2 w-fit ">
-				<div class="font-bold px-2" title="From left to right, Lowest string1 to string6">Tuning</div>
-				<div class="flex flex-row">
+			<div id="tuning-input" class="flex flex-wrap w-fit flex-row bg-gray-300 p-2">
+				<div class="font-bold flex-wrap px-2" title="From left to right, Lowest string1 to string6">Tuning</div>
+				<div class="flex flex-row flex-wrap">
 					{#each appState.tuning as string, tuneString_index}
 					<input bind:value={appState.tuning[tuneString_index]} placeholder={`String ${tuneString_index +1}`} class="field-sizing-content min-w-[6ch] border px-1"/>
 					{/each}
@@ -69,9 +69,10 @@
 			<pre>Tuning{JSON.stringify(appState.tuning, null, 2)}</pre>
 		</div>
 		<div id="output-section" class="w-1/2 p-4 bg-green-100 border-r overflow-y-auto">
-			<pre> undo Stack: {JSON.stringify(commandMonitor.undoStack, null, 2)}</pre>
-			<pre> redo Stack: {JSON.stringify(commandMonitor.redoStack, null, 2)}</pre>
-			<pre>{JSON.stringify(appState.validNotes, null, 2)}</pre>
+			<!-- <pre> undo Stack: {JSON.stringify(commandMonitor.undoStack, null, 2)}</pre>
+			<pre> redo Stack: {JSON.stringify(commandMonitor.redoStack, null, 2)}</pre> -->
+			<pre> best frets: {JSON.stringify(appState.bestFret, null, 2)}</pre>
+
 		</div>
 	</div>
 </div>
